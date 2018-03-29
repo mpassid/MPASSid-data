@@ -35,6 +35,24 @@ DATABASES = {
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
+
+AUTH_EXTERNAL_SOURCES = {
+    'ldap_test': ['authdata.datasources.ldap_base', 'TestLDAPDataSource', {
+        'host': 'ldaps://86.50.170.135',
+        'username': 'uid=robot001,ou=Robots,dc=mpass-test,dc=csc,dc=fi',
+        'password': 'robot001'
+        }],
+}
+
+AUTH_EXTERNAL_ATTRIBUTE_BINDING = {
+    'ldap_test': 'ldap_test',
+}
+
+AUTH_EXTERNAL_MUNICIPALITY_BINDING = {
+    'KuntaYksi': 'ldap_test',
+}
+
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
