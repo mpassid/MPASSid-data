@@ -1,0 +1,9 @@
+#!/bin/bash
+
+/bin/virtualenv -p `which python` {{ secure.app_root }}/env
+source {{ secure.app_root }}/env/bin/activate 
+pip install -U pip setuptools 
+pip install -r {{ secure.app_root }}/mpass-data/requirements.txt
+
+
+

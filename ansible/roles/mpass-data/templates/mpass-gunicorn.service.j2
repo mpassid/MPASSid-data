@@ -1,0 +1,16 @@
+[Unit]
+Description=Gunicorn for MPASS
+After=network.target remote-fs.target nss-lookup.target
+
+[Service]
+WorkingDirectory={{ secure.app_root }}/mpass-data
+Type=simple
+User=educloud
+Group=root
+ExecStart={{ secure.app_root }}/mpass-data/run-service.sh
+ExecReload=/bin/pkill -HUP -P ${MAINPID]
+ExecStop=/bin/pkill -TERM -P  ${MAINPID}
+
+[Install]
+WantedBy=multi-user.target
+

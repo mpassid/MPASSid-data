@@ -1,0 +1,19 @@
+ #
+ # WARNING: Security Hazard keep this file encrypted all times
+ #
+ secure:
+   app_root: /opt/test
+   git_repo: /opt/tmp
+   postgres:
+       db_name: tdata
+       db_user: tdata
+       db_pass: tdata
+       db_serv: 127.0.0.1
+   httpd:
+       ServerName: localhost
+       ServerAdmin: root@localhost
+       SSLCertificateFile: /etc/pki/tls/certs/localhost.crt
+       SSLCertificateKeyFile: /etc/pki/tls/private/localhost.key       
+
+
+

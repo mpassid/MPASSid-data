@@ -1,0 +1,35 @@
+#A basic travis.yml boilerplate for Django projects
+#
+#   The set-up assumes a postgreSQL database.
+#
+#   Replace the following variables in the code:
+# * your_project_settings
+# * your_github_username
+# * your_repo
+
+language: python
+
+python:
+  - 2.7
+
+services: postgresql
+
+env:
+  - DJANGO=1.11.10
+
+before_install:
+  - export DJANGO_SETTINGS_MODULE=project.production
+  - export PYTHONPATH=$HOME/builds/laze76/mpass-data-test
+  - export PIP_USE_MIRRORS=true
+
+install:
+  - pip install -U pip setuptools       
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c "CREATE DATABASE authdata;" -U postgres
+  - psql -c "CREATE USER authdata with encrypted password 'authdata' createdb;"  -U postgres
+  - psql -c "ALTER DATABASE authdata owner to authdata;"  -U postgres   
+
+script:
+  - python manage.py test

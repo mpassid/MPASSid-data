@@ -1,0 +1,25 @@
+DO
+$body$
+BEGIN
+   IF NOT EXISTS (
+      SELECT * FROM pg_catalog.pg_user
+      WHERE usename = '{{ secure.postgres.db_user }}') 
+   THEN
+           CREATE ROLE data LOGIN PASSWORD '{{ secure.postgres.db_user }}' CREATEDB;
+	   CREATE DATABASE {{ secure.postgres.db_name }};
+	   GRANT ALL PRIVILEGES ON DATABASE "{{ secure.postgres.db_name }}" to {{ secure.postgres.db_user }};
+
+   END IF;
+
+   IF NOT EXISTS (
+      SELECT * FROM pg_catalog.pg_user
+      WHERE usename = 'test_{{ secure.postgres.db_user }}') 
+   THEN
+          CREATE ROLE test_data LOGIN PASSWORD 'test_{{ secure.postgres.db_user }}' CREATEDB;
+          CREATE DATABASE test_{{ secure.postgres.db_name }};
+          GRANT ALL PRIVILEGES ON DATABASE "test_{{ secure.postgres.db_name }}" to test_{{ secure.postgres.db_user }};
+
+   END IF;
+END
+$body$;
+

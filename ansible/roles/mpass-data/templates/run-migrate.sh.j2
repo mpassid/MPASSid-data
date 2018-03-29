@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source {{ secure.app_root }}/env/bin/activate
+cd {{ secure.app_root }}/mpass-data/
+python manage.py makemigrations
+python manage.py migrate
+if [ $? -eq 0 ];
+then
+  touch {{ secure.app_root }}/mpass-data/migrate.ok
+else
+  exit 1
+fi

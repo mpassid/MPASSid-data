@@ -1,0 +1,20 @@
+#!/bin/bash 
+
+db_name="{{ secure.postgres.db_name }}"
+db_pass="{{ secure.postgres.db_pass }}"
+db_check=`PGPASSWORD=$db_pass /bin/psql -h 127.0.0.1 -U$db_name -l | cut -d \| -f1 | grep -w $db_name`
+
+
+if [ $db_check == $db_name ];
+then
+    echo "Starting  gunicorn..."
+    source {{ secure.app_root }}/env/bin/activate
+    cd {{ secure.app_root }}/mpass-data
+    gunicorn -b 127.0.0.1:8001 project.wsgi:application
+else
+    echo "ERROR: Database not found or unable to connect"
+    exit 1
+fi
+
+
+
