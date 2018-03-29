@@ -1,6 +1,6 @@
 # MPASSid Auth Data service
 ![](http://img.shields.io/:license-mit-blue.svg)
-![](https://travis-ci.org/CSCfi/MPASSid-data.svg?branch=master)
+![](https://api.travis-ci.org/mpassid/MPASSid-data.svg?branch=master)
 
 MPASSid Auth Data service is a proxy for actual data store, or multiple datastores, which contain user
 identity and role information.
@@ -42,11 +42,15 @@ RedHat/CentOS 7 server (ie. virtual machine) with root privileges.
 
 ##### 4 Create Django administrator account
 Activate python virtual environment.
-`$ cd {app_root} `
+
+`$ cd {app_root}`
+
 `$ source env/bin/activate`
 
 Change to mpass-data home and run Django management utils
+
  `$ cd mpass-data`
+
  `$ python manage.py createsuperuser `
 
 #####  5 Create user for API-access
@@ -63,11 +67,17 @@ Login to Django administration <https://servername.fi/sysdamin/>  using username
 
 ##### 6 Test API connection 
 Test API  for example using Curl
+
 `$ curl -k --header "Authorization: Token c2d748e9e453e42a80e8c45289da4642738d1af5" https://127.0.0.1/api/1/query?ldap_test=pvirtane`
 
 Above query  should return
 ``` JSON
-{"username":"MPASSOID.53b1af17cb284998638b5","attributes":[{"name":"legacyId","value":"f0ba7691aeff3ef2302d6edce5303641"},{"name":"municipalityCode","value":"1"},{"name":"ldap_test","value":"pvirtane"}],"first_name":"Pekka-Testi","last_name":"Virtanen","roles":[{"municipality":"KuntaYksi","school":"DemolaTestSchool","role":"Oppilas","group":"9A"}]}
+{"username":"MPASSOID.53b1af17cb284998638b5","attributes":
+[{"name":"legacyId","value":"f0ba7691aeff3ef2302d6edce5303641"},
+{"name":"municipalityCode","value":"1"},
+{"name":"ldap_test","value":"pvirtane"}],
+"first_name":"Pekka-Testi","last_name":"Virtanen",
+"roles":[{"municipality":"KuntaYksi","school":"DemolaTestSchool","role":"Oppilas","group":"9A"}]}
 ```
 
-###End
+### End

@@ -86,7 +86,7 @@
 
 - name: Get MPASSid from GIT source to build home
   git:
-    repo: 'https://github.com/CSCfi/MPASSid-data'
+    repo: 'https://github.com/mpassid/MPASSid-data'
     dest: "{{ secure.git_repo }}/mpass-data"
 
 
