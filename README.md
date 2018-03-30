@@ -13,14 +13,14 @@ Based on Educloud Alliance reference implementation. See [Educloud  Alliance](ht
 Developer information and more detailed documentation will be available in <http://www.mpass.fi> 
 
 ## Quick install guide
-Currently ansible scripts only support single server installation. Alll the components are installed  in one server (database, httpd, MPASSid data component) 
+Currently ansible scripts only support single server installation. All the components are installed  in one server (database, httpd, MPASSid data component) 
 ### Prerequisites
 
 RedHat/CentOS 7 server (ie. virtual machine) with root privileges.
-
+You can use the Vagrant configuration provided. 
 
 ### Installation steps
-##### 1 Download just the ansible scripts (**ansible.tar.gz**) or clone this entire repository
+##### 1 Download just the ansible scripts (**ansible.tar.gz**) or clone this entire repository and use Vagrant to provision virtual server.
 
 ##### 2 Configure installation parameters in ...roles/vars/secure.yml. Parametters are
 
@@ -37,7 +37,11 @@ RedHat/CentOS 7 server (ie. virtual machine) with root privileges.
 | SSLCertificateFile | Apache path to SSL certificate |
 |  SSLCertificateKeyFile | Apache path to SSL private key |
 
-##### 3  Login to your server and run ansible
+##### 3  Run Vagrant
+`$ vagrant up `
+
+If you prefer to use just the ansible scripts you can run them for example in localhoat as follows: 
+
 `$ sudo  ansible-playbook -i "localhost," -c local mpass-data.yml`
 
 ##### 4 Create Django administrator account

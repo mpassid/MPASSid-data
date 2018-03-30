@@ -13,6 +13,7 @@
     - postgresql
     - postgresql-server
     - python-psycopg2
+    - libsemanage-python
     - openssl-devel 
     - openldap-devel 
     - gcc 
@@ -23,6 +24,7 @@
     - sudo 
     - bash 
     - wget
+    - rsync
     - git
 
 
@@ -70,6 +72,9 @@
     recurse: yes
 
 
+# - name: Remove files from build tmp
+#  commad: /bin/find "{{ secure.git_repo }}" -delete
+
 - name: Remove build dir
   file:
     state: absent
@@ -86,15 +91,16 @@
 
 - name: Get MPASSid from GIT source to build home
   git:
-    repo: 'https://github.com/mpassid/MPASSid-data'
+    repo: 'https://github.com/CSCfi/MPASSid-data'
     dest: "{{ secure.git_repo }}/mpass-data"
 
 
 - name: Copy files to application home
-  copy:
+  synchronize:
     src: "{{ secure.git_repo }}/mpass-data/"
     dest: "{{ secure.app_root }}/mpass-data"
-    force: yes
+    archive: yes
+  delegate_to: "{{ inventory_hostname }}"
 
 
 - name: Change ownersip to educloud 
@@ -132,6 +138,7 @@
   postgresql_db:
     name:  "{{ secure.postgres.db_name }}"
     state: present
+    template: template0
     encoding: UTF-8
 
 
