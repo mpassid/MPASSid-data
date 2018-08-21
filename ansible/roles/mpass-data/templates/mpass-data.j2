@@ -1,0 +1,13 @@
+/var/log/mpass-data/authdata.log {
+  daily
+  rotate 30
+  create
+  dateext
+  dateyesterday
+  compress
+  delaycompress
+  notifempty
+  missingok
+  su educloud root
+}
+
