@@ -97,9 +97,9 @@ LOGGING = {
       },
       'file': {
         'level': 'DEBUG',
-        'class': 'logging.FileHandler',
-        'filename': 'authdata.log',
-        'formatter': 'verbose'
+        'class': 'logging.handlers.WatchedFileHandler',
+        'filename': '/var/log/mpass-data/authdata.log',
+        'formatter': 'verbose',
       },
     },
     'loggers': {

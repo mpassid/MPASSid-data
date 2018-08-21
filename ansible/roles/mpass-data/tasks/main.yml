@@ -109,6 +109,11 @@
     owner: educloud
     recurse: yes
 
+- name: Create directory for logs
+  file:
+    path: /var/log/mpass-data
+    state: directory
+    owner: educloud
 
 - name: Copy other files needed by application
   copy:
@@ -129,7 +134,8 @@
     - { src: run-service.sh.j2, dest: "{{ secure.app_root }}/mpass-data/run-service.sh", mode: "0777", owner: educloud }
     - { src: mpass-gunicorn.service.j2, dest: "/usr/lib/systemd/system/mpass-gunicorn.service", mode: "0777", owner: root }
     - { src: run-migrate.sh.j2, dest: "{{ secure.app_root }}/mpass-data/run-migrate.sh", mode: "0777", owner: educloud }
-    - { src: mpass.conf.j2, dest: /etc/httpd/conf.d/mpass.conf, mode: "0644", owner: root }  
+    - { src: mpass.conf.j2, dest: /etc/httpd/conf.d/mpass.conf, mode: "0644", owner: root }
+    - { src: mpass-data.j2, dest: /etc/logrotate.d/mpass-data, mode: "0644", owner: root }  
 
 
 - name: Create production database
