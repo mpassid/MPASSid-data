@@ -17,7 +17,7 @@
   LogLevel warn
 
   RequestHeader unset X-Forwarded-Protocol
-  RequestHeader set X-Forwarded-Protocol https env=HTTPS
+  RequestHeader set X-Forwarded-Protocol ssl env=HTTPS
   RequestHeader set X-Forwarded-Proto https env=HTTPS
 
   ProxyPass /robots.txt !
