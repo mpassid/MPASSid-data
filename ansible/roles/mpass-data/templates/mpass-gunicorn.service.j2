@@ -5,6 +5,7 @@ After=network.target remote-fs.target nss-lookup.target
 [Service]
 WorkingDirectory={{ secure.app_root }}/mpass-data
 Type=simple
+Restart=on-failure
 User=educloud
 Group=root
 ExecStart={{ secure.app_root }}/mpass-data/run-service.sh
