@@ -1,0 +1,15 @@
+---
+# defaults file for apache
+apache_https_port: 443
+
+# latest / installed (if enought that apache is already installed but not the latest one)
+apache_state: latest 
+
+apache_sslciphersuite: "HIGH:!aNULL:!eNULL:!kECDH:!aDH:!RC4:!3DES:!CAMELLIA:!MD5:!PSK:!SRP:!KRB5:@STRENGTH"
+apache_sslprotocol: "ALL -SSLv2 -SSLv3"
+
+apache_ssl_key: "{{ vault_ssl_key | default('not_set_yet') }}"
+apache_ssl_crt: "{{ vault_ssl_crt | default('not_set_yet') }}"
+apache_ssl_cabundle: "{{ vault_ssl_cabundle | default('not_set_yet') }}"
+
+apache_fqdn: "{{ ansible_fqdn }}"

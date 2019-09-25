@@ -6,8 +6,6 @@
     name: "{{ item }}"
     state: latest
   with_items:
-    - httpd
-    - mod_ssl
     - python 
     - python-virtualenv 
     - postgresql
@@ -173,26 +171,9 @@
   when: make_migrations
 
 
-- name: Allow apache to connet to gunicorn
-  seboolean:
-    name: httpd_can_network_connect
-    state: yes
-    persistent: yes 
-
-
 - name: Enable and start mpass-dataservice
   systemd:
     name: mpass-gunicorn
     enabled: yes
     masked: no
     state: restarted
-
-
-- name: Enable and restart Apache
-  systemd:
-    name: httpd
-    enabled: yes
-    masked: no
-    state: restarted        
-
-

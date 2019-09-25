@@ -1,0 +1,23 @@
+---
+__apache_packages: 
+  - apache2
+  - apache2-utils
+
+apache_service_name: apache2
+apache_service_user: www-data
+apache_sites: /etc/apache2/sites-available
+apache_crtdir: "{{ crtdir | default('/etc/ssl') }}"
+apache_sslconf: "{{ apache_sites }}/default-ssl.conf"
+
+apache_ssl_hardening_items:
+    - file: "/etc/apache2/mods-enabled/ssl.conf"
+      option: "SSLCipherSuite"
+      value: "{{ apache_sslciphersuite }}"
+    - file: "/etc/apache2/mods-enabled/ssl.conf"
+      option: "SSLProtocol"
+      value: "{{ apache_sslprotocol }}"
+
+apache_ssl_hardening_items2:
+    - file: "/etc/apache2/apache2.conf"
+      option: "TraceEnable"
+      value: "off"

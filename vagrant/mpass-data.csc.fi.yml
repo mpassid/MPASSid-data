@@ -1,7 +1,8 @@
-- hosts: all
-  become: true
-  become_method: sudo
+---
+- hosts: mpass-data
+  become: yes
   vars:
     make_migrations: true
   roles:
+    - CSCfi.apache
     - mpass-data

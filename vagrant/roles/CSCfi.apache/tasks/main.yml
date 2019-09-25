@@ -1,0 +1,44 @@
+---
+# tasks file for apache
+- name: Apache | Initialize
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "{{ ansible_os_family }}.yml"
+    - "default.yml"
+  when: __apache_packages is not defined or apache_service_name is not defined
+
+- name: Apache | Define | Packages
+  set_fact:
+    apache_packages: "{{ __apache_packages | list }}"
+  when: apache_packages is not defined
+
+- name: Apache | Install
+  package: name={{ item }} state={{ apache_state }}
+  with_items: "{{ apache_packages }}"
+
+- name: Apache | Enable | Apache
+  service:
+    name: "{{ apache_service_name }}"
+    state: started
+    enabled: yes
+
+- name: Apache | Enable | Modules | ssl, rewrite
+  apache2_module: name={{ item }} state=present
+  with_items:
+    - ssl
+    - rewrite
+
+- name: Apache | Harden 
+  lineinfile: dest="{{ item.file }}" regexp="^{{ item.option }}" line="{{ item.option }} {{ item.value }}" state=present
+  with_items: "{{ apache_ssl_hardening_items2 }}"
+  notify: restart apache
+
+- name: Apache | Harden | SSL
+  lineinfile: dest={{ item.file }} regexp="^#?\s*({{ item.option }})" backrefs=yes  line="\\1 {{ item.value }}"
+  with_items: "{{ apache_ssl_hardening_items }}"
+  notify: restart apache 
+
+- name: "{{ configurables }}"
+  include: apache_{{ item }}.yml
+  with_items: "{{ configurables }}"
+  when: configurables is defined and configurables!=""

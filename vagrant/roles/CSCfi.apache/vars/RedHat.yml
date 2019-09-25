@@ -1,0 +1,24 @@
+---
+__apache_packages:
+  - httpd
+  - mod_ssl
+
+apache_service_name: httpd
+apache_service_user: apache
+apache_sites: /etc/httpd/conf.d
+apache_crtdir: "{{ crtdir | default('/etc/pki/tls') }}"
+apache_sslconf: "{{ apache_sites }}/ssl.conf"
+
+apache_ssl_hardening_items:
+    - file: "{{ apache_sslconf }}"
+      option: "SSLCipherSuite"
+      value: "{{ apache_sslciphersuite }}"
+    - file: "{{ apache_sslconf }}"
+      option: "SSLProtocol"
+      value: "{{ apache_sslprotocol }}"
+
+apache_ssl_hardening_items2:
+    - file: "/etc/httpd/conf/httpd.conf"
+      option: "TraceEnable"
+      value: "off"
+
