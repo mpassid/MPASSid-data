@@ -1,0 +1,8 @@
+*.bak
+.vagrant
+roles
+roles/CSCfi.apache
+roles/mpass-data
+*.swp
+*.retry
+
