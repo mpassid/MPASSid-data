@@ -1,8 +1,5 @@
 *.bak
 .vagrant
-roles
 CSCfi.apache
-mpass-data
 *.swp
 *.retry
-
