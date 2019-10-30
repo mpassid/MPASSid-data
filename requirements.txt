@@ -1,7 +1,7 @@
 cffi==1.11.5
 Django>=1.11.23
 django-filter==1.1.0
-djangorestframework==3.8.2
+djangorestframework==3.9.1
 factory-boy==2.11.1
 google-api-python-client==1.7.4
 gunicorn==19.9.0
