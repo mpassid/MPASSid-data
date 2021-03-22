@@ -1,0 +1,5 @@
+*.bak
+.vagrant
+CSCfi.apache
+*.swp
+*.retry

@@ -3,30 +3,27 @@
 
 - name: Install httpd and ssl with shibboleth
   yum:
-    name: "{{ item }}"
+    name:
+      - python 
+      - python-virtualenv 
+      - postgresql
+      - postgresql-server
+      - python-psycopg2
+      - libsemanage-python
+      - openssl-devel 
+      - openldap-devel 
+      - gcc 
+      - make 
+      - which 
+      - sed 
+      - gawk 
+      - sudo 
+      - bash 
+      - wget
+      - rsync
+      - git
+      - expect
     state: latest
-  with_items:
-    - httpd
-    - mod_ssl
-    - python 
-    - python-virtualenv 
-    - postgresql
-    - postgresql-server
-    - python-psycopg2
-    - libsemanage-python
-    - openssl-devel 
-    - openldap-devel 
-    - gcc 
-    - make 
-    - which 
-    - sed 
-    - gawk 
-    - sudo 
-    - bash 
-    - wget
-    - rsync
-    - git
-
 
 - name: Ensure PostgreSQL database is initialized.
   become: yes
@@ -172,13 +169,11 @@
   become_user: educloud
   when: make_migrations
 
-
 - name: Allow apache to connet to gunicorn
   seboolean:
     name: httpd_can_network_connect
     state: yes
     persistent: yes 
-
 
 - name: Enable and start mpass-dataservice
   systemd:
@@ -187,12 +182,15 @@
     masked: no
     state: restarted
 
-
-- name: Enable and restart Apache
-  systemd:
-    name: httpd
-    enabled: yes
-    masked: no
-    state: restarted        
-
-
+- name: Test user
+  shell: |
+    spawn sudo educloud "source {{ secure.app_root }}/env/bin/activate && python {{ secure.app_root }}/mpass-data/manage.py createsuperususer --username {{ secure.postgres.db_user }} --email test@test.com"
+    expect "Password: "
+    send {{ secure.postgres.db_pass | regex_escape() }}\r
+    expect "Password (again): "
+    send {{ secure.postgres.db_pass | regex_escape() }}\r
+    interact
+    exit 0
+  args:
+    executable: /usr/bin/expect
+    chdir: "{{ secure.app_root }}/mpass-data"

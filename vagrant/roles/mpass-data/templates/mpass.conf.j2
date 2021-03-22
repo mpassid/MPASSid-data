@@ -1,21 +1,4 @@
 
-<VirtualHost *:443>
-
-  ServerName {{ secure.httpd.ServerName }}
-
-  ServerAdmin {{ secure.httpd.ServerAdmin }}
-  UseCanonicalName Off
-
-  SSLEngine on
-  SSLProtocol all -SSLv2 -SSLv3
-  SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5:!SEED:!IDEA
-  SSLCertificateFile  {{ secure.httpd.SSLCertificateFile }}
-  SSLCertificateKeyFile  {{ secure.httpd.SSLCertificateKeyFile }}
-
-  ErrorLog logs/mpass_ssl_error_log
-  TransferLog logs/mpass_ssl_access_log
-  LogLevel warn
-
   RequestHeader unset X-Forwarded-Protocol
   RequestHeader set X-Forwarded-Protocol ssl env=HTTPS
   RequestHeader set X-Forwarded-Proto https env=HTTPS
@@ -27,6 +10,7 @@
   </Location>
 
   Alias /static/ "{{ secure.app_root }}/mpass-data/staticroot/"
+
   <Directory "{{ secure.app_root }}/mpass-data/staticroot/">
     Header set Access-Control-Allow-Origin "*"
     ExpiresActive On
@@ -41,6 +25,3 @@
 
   ProxyPass / http://127.0.0.1:8001/
   ProxyPassReverse / http://127.0.0.1:8001/
-
-</VirtualHost>                                  
-
